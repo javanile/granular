@@ -8,7 +8,7 @@ class MyFirstAction implements Bindable
      * @var array
      */
     public static $bindings = [
-        'action:init'
+        'action:init' => 'action'
     ];
 
     /**
@@ -16,6 +16,5 @@ class MyFirstAction implements Bindable
      */
     public function action()
     {
-
     }
 }

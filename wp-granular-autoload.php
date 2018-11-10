@@ -34,12 +34,12 @@ function wp_granular_autoload($namespace, $path)
  */
 function wp_granular_autoload_class($class)
 {
-    foreach ($class::$bindings as $binding) {
+    foreach ($class::$bindings as $binding => $method) {
         if (!preg_match('/^(action|filter):([a-z]+)$/', $binding, $tokens)) {
             continue;
         }
 
-        $callback = new Javanile\WpGranular\Callback($class);
+        $callback = new Javanile\WpGranular\Callback($class, $method);
 
         switch ($tokens[1]) {
             case 'action':

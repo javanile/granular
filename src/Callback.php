@@ -10,6 +10,11 @@ final class Callback
     private $class;
 
     /**
+     * @var
+     */
+    private $method;
+
+    /**
      *
      */
     private $consumer;
@@ -17,10 +22,12 @@ final class Callback
     /**
      * Callback constructor.
      * @param $class
+     * @param $method
      */
-    public function __construct($class)
+    public function __construct($class, $method)
     {
         $this->class = $class;
+        $this->method = $method;
     }
 
     /**
@@ -40,6 +47,6 @@ final class Callback
     {
         $this->initConsumer();
 
-        $this->consumer->action();
+        $this->consumer->{$this->method}();
     }
 }
