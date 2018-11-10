@@ -1,3 +1,4 @@
+.idea/
 volumes/
 !volumes/mysql/.gitkeep
 !volumes/wordpress/.gitkeep

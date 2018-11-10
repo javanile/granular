@@ -12,12 +12,10 @@ Version: 0.0.1
 Author URI: https://github.com/javanile
 */
 
+require_once __DIR__.'/src/Bindable.php';
+require_once __DIR__.'/src/Callback.php';
+require_once __DIR__.'/src/MyFirstAction.php';
 
+require_once __DIR__.'/wp-granular-autoload.php';
 
-function wp_granular_autoload($path)
-{
-
-
-}
-
-wp_granular_autoload(__DIR__.'/src');
+wp_granular_autoload('Javanile\\WpGranular\\', __DIR__.'/src');
