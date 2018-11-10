@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    environment:
+      - WORDPRESS_DB_PASSWORD=wordpress
+    ports:
+      - 12080:80
+    volumes:
+      - ./volumes/wordpress/:/var/www/html/wp-content:rw
+      - ./:/var/www/html/wp-content/plugins/wp-granular:rw
+    restart: "no"
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=wordpress
+    volumes:
+      - ./volumes/mysql/:/var/lib/mysql
+    restart: "no"
