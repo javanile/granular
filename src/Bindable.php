@@ -2,7 +2,10 @@
 
 namespace Javanile\WpGranular;
 
-interface Bindable
+abstract class Bindable
 {
-
+    public static function getBindings()
+    {
+        return static::$bindings;
+    }
 }

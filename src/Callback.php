@@ -7,46 +7,55 @@ final class Callback
     /**
      * @var
      */
-    private $class;
-
-    /**
-     * @var
-     */
-    private $method;
+    private $bindClass;
 
     /**
      *
      */
-    private $consumer;
+    private $bindObject;
 
     /**
      * Callback constructor.
-     * @param $class
-     * @param $method
+     * @param $bindClass
+     * @internal param $class
+     * @internal param $method
      */
-    public function __construct($class, $method)
+    public function __construct($bindClass)
     {
-        $this->class = $class;
-        $this->method = $method;
+        $this->bindClass = $bindClass;
     }
 
     /**
      *
      */
-    private function initConsumer()
+    private function bindObject()
     {
-        if ($this->consumer == null) {
-            $this->consumer = new $this->class();
+        if ($this->bindObject == null) {
+            $this->bindObject = new $this->bindClass();
         }
+
+        return $this->bindObject;
     }
 
     /**
-     *
+     * @param $method
+     * @return \Closure
      */
-    public function action()
+    public function addAction($method)
     {
-        $this->initConsumer();
+        return function () use ($method) {
+            call_user_func_array([$this->bindObject(), $method], []);
+        };
+    }
 
-        $this->consumer->{$this->method}();
+    /**
+     * @param $method
+     * @return \Closure
+     */
+    public function addFilter($method)
+    {
+        return function () use ($method) {
+            call_user_func_array([$this->bindObject(), $method], []);
+        };
     }
 }
