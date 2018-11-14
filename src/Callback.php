@@ -5,17 +5,18 @@ namespace Javanile\WpGranular;
 final class Callback
 {
     /**
-     * @var
+     * @var string
      */
     private $bindClass;
 
     /**
-     *
+     * @var object
      */
     private $bindObject;
 
     /**
      * Callback constructor.
+     *
      * @param $bindClass
      * @internal param $class
      * @internal param $method
@@ -41,21 +42,10 @@ final class Callback
      * @param $method
      * @return \Closure
      */
-    public function addAction($method)
+    public function addMethodCallback($method)
     {
         return function () use ($method) {
-            call_user_func_array([$this->bindObject(), $method], []);
-        };
-    }
-
-    /**
-     * @param $method
-     * @return \Closure
-     */
-    public function addFilter($method)
-    {
-        return function () use ($method) {
-            call_user_func_array([$this->bindObject(), $method], []);
+            call_user_func_array([$this->bindObject(), $method], func_get_args());
         };
     }
 }
