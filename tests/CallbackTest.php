@@ -2,9 +2,9 @@
 
 namespace Javanile\WpGranular\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Javanile\Granular\Callback;
 use Javanile\Granular\Tests\Fixtures\FakeRefClass;
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 
 final class CallbackTest extends TestCase
