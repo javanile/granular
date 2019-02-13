@@ -12,6 +12,7 @@ final class AutoloadTest extends TestCase
         $autoload = new Autoload([
             'add_action'                 => [FakeFunctions::class, 'alwaysTrue'],
             'add_filter'                 => [FakeFunctions::class, 'alwaysTrue'],
+            'add_shortcode'              => [FakeFunctions::class, 'alwaysTrue'],
             'register_activation_hook'   => [FakeFunctions::class, 'alwaysTrue'],
             'register_deactivation_hook' => [FakeFunctions::class, 'alwaysTrue'],
         ]);
@@ -32,6 +33,13 @@ final class AutoloadTest extends TestCase
             [ 'myFilterMethod' ],
             $autoload->autoloadBindings(\stdClass::class, [
                 'filter:my_filter' => 'myFilterMethod'
+            ])
+        );
+
+        $this->assertEquals(
+            [ 'myShortcodeMethod' ],
+            $autoload->autoloadBindings(\stdClass::class, [
+                'shortcode:my_shortcode' => 'myShortcodeMethod'
             ])
         );
 

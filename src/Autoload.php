@@ -84,11 +84,12 @@ final class Autoload
                 $method = null;
             }
 
-            if (!preg_match('/^(action|filter|plugin):([a-z_]+)(:([0-9]+))?(:([0-9]+))?$/', $binding, $tokens)) {
+            $regex = '/^(action|filter|shortcode|plugin)(:([a-z_]+))?(:([0-9]+))?(:([0-9]+))?$/';
+            if (!preg_match($regex, $binding, $tokens)) {
                 continue;
             }
 
-            $method = $method ?: $tokens[2];
+            $method = $method ?: $tokens[3];
             if ($this->addMethodCallback($tokens, $callback, $method)) {
                 $methods[] = $method;
             }
@@ -108,19 +109,23 @@ final class Autoload
      */
     private function addMethodCallback($tokens, Callback $callback, $method)
     {
-        $priority = isset($tokens[4]) ? $tokens[4] : 10;
-        $acceptedArgs = isset($tokens[6]) ? $tokens[6] : 1;
+        $trigger = isset($tokens[3]) ? $tokens[3] : null;
+        $priority = isset($tokens[5]) ? $tokens[5] : 10;
+        $acceptedArgs = isset($tokens[7]) ? $tokens[7] : 1;
 
-        if ($tokens[1] == 'action') {
+        if ($tokens[1] == 'action' && $trigger) {
             $func = isset($this->functions['add_action']) ? $this->functions['add_action'] : 'add_action';
-
-            return call_user_func($func, $tokens[2], $callback->getMethodCallback($method), $priority, $acceptedArgs);
+            return call_user_func($func, $trigger, $callback->getMethodCallback($method), $priority, $acceptedArgs);
         }
 
-        if ($tokens[1] == 'filter') {
+        if ($tokens[1] == 'filter' && $trigger) {
             $func = isset($this->functions['add_filter']) ? $this->functions['add_filter'] : 'add_filter';
+            return call_user_func($func, $trigger, $callback->getMethodCallback($method), $priority, $acceptedArgs);
+        }
 
-            return call_user_func($func, $tokens[2], $callback->getMethodCallback($method), $priority, $acceptedArgs);
+        if ($tokens[1] == 'shortcode') {
+            $func = isset($this->functions['add_shortcode']) ? $this->functions['add_shortcode'] : 'add_shortcode';
+            return call_user_func($func, $trigger, $callback->getMethodCallback($method));
         }
 
         return $this->addMethodCallbackPlugin($tokens, $callback, $method);
@@ -141,11 +146,12 @@ final class Autoload
             return;
         }
 
-        if (!in_array($tokens[2], ['register_activation_hook', 'register_deactivation_hook'])) {
+        $func = isset($tokens[3]) ? $tokens[3] : null;
+        if (!in_array($func, ['register_activation_hook', 'register_deactivation_hook'])) {
             return;
         }
 
-        $func = isset($this->functions[$tokens[2]]) ? $this->functions[$tokens[2]] : $tokens[2];
+        $func = isset($this->functions[$func]) ? $this->functions[$func] : $func;
 
         call_user_func($func, __FILE__, $callback->getMethodCallback($method));
 
