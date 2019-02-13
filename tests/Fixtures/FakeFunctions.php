@@ -1,8 +1,8 @@
 <?php
 
-namespace Javanile\WpGranular\Tests;
+namespace Javanile\Granular\Tests;
 
-class TestUtil
+class FakeFunctions
 {
     public static function alwaysTrue()
     {

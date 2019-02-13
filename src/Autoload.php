@@ -76,7 +76,7 @@ final class Autoload
         $callback = new Callback($class);
 
         foreach ($bindings as $binding => $method) {
-            if (is_number($binding)) {
+            if (is_numeric($binding)) {
                 $binding = $method;
                 $method = null;
             }

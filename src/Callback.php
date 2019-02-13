@@ -58,7 +58,7 @@ final class Callback
     public function getMethodCallback($method)
     {
         return function () use ($method) {
-            call_user_func_array([$this->getRefObject(), $method], func_get_args());
+            return call_user_func_array([$this->getRefObject(), $method], func_get_args());
         };
     }
 }

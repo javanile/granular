@@ -6,6 +6,6 @@ class FakeRefClass
 {
     public function fakeRefMethod()
     {
-        return 'refMethod';
+        return 'fakeRefMethod';
     }
 }

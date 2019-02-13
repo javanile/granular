@@ -4,16 +4,17 @@ namespace Javanile\Granular\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Javanile\Granular\Autoload;
+use Javanile\Granular\Tests\FakeFunctions;
 
 final class AutoloadTest extends TestCase
 {
     public function testAutoload()
     {
         $autoload = new Autoload([
-            'add_action' => [ TestUtil::class, 'alwaysTrue' ],
-            'add_filter' => [ TestUtil::class, 'alwaysTrue' ],
-            'register_activation_hook' => [ TestUtil::class, 'alwaysTrue'],
-            'register_deactivation_hook' => [ TestUtil::class, 'alwaysTrue' ],
+            'add_action' => [ FakeFunctions::class, 'alwaysTrue' ],
+            'add_filter' => [ FakeFunctions::class, 'alwaysTrue' ],
+            'register_activation_hook' => [ FakeFunctions::class, 'alwaysTrue'],
+            'register_deactivation_hook' => [ FakeFunctions::class, 'alwaysTrue' ],
         ]);
 
         $this->assertEquals(

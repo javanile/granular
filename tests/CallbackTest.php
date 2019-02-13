@@ -5,6 +5,7 @@ namespace Javanile\WpGranular\Tests;
 use PHPUnit\Framework\TestCase;
 use Javanile\Granular\Callback;
 use Javanile\Granular\Tests\Fixtures\FakeRefClass;
+use ReflectionMethod;
 
 final class CallbackTest extends TestCase
 {
@@ -12,8 +13,14 @@ final class CallbackTest extends TestCase
     {
         $callback = new Callback(FakeRefClass::class);
 
-        $this->assertEquals($callback->getRefObject()->fakeRefMethod(), 'fakeRefMethod');
+        $getRefObjectMethod = new ReflectionMethod($callback, 'getRefObject');
 
-        $this->assertTrue(is_callable($callback->getMethodCallback()));
+        $this->assertTrue($getRefObjectMethod->isPrivate());
+
+        $fakeRefMethod = $callback->getMethodCallback('fakeRefMethod');
+
+        $this->assertTrue(is_callable($fakeRefMethod));
+
+        $this->assertEquals($fakeRefMethod(), 'fakeRefMethod');
     }
 }
