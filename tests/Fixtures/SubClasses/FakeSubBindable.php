@@ -6,7 +6,7 @@ use Javanile\Granular\Bindable;
 
 class FakeSubBindable extends Bindable
 {
-    static $bindings = [
+    public static $bindings = [
         'action:init',
     ];
 }
