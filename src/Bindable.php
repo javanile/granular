@@ -1,8 +1,9 @@
 <?php
 /**
- * javanile/granular
+ * javanile/granular.
  *
  * @link      http://github.com/javanile/granular
+ *
  * @copyright Copyright (c) 2018-2019 Javanile org.
  * @license   https://github.com/javanile/granular/blob/master/LICENSE
  */

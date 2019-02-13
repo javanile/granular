@@ -1,8 +1,9 @@
 <?php
 /**
- * javanile/granular
+ * javanile/granular.
  *
  * @link      http://github.com/javanile/granular
+ *
  * @copyright Copyright (c) 2018-2019 Javanile org.
  * @license   https://github.com/javanile/granular/blob/master/LICENSE
  */
@@ -33,24 +34,25 @@ final class Autoload
      *
      * @param $namespace
      * @param $path
+     *
      * @return array
      */
     public function autoload($namespace, $path)
     {
         $autoload = [];
-        $namespace = trim($namespace, '\\') . '\\';
+        $namespace = trim($namespace, '\\').'\\';
 
         foreach (scandir($path) as $file) {
             if ($file[0] == '.' || !in_array(pathinfo($file, PATHINFO_EXTENSION), ['', 'php'])) {
                 continue;
             }
 
-            $dir = $path . '/' . $file;
+            $dir = $path.'/'.$file;
             if (is_dir($dir)) {
-                $autoload = array_merge($autoload, $this->autoload($namespace . $file, $dir));
+                $autoload = array_merge($autoload, $this->autoload($namespace.$file, $dir));
             }
 
-            $class = $namespace . basename($file, '.php');
+            $class = $namespace.basename($file, '.php');
             if (!is_subclass_of($class, 'Javanile\\Granular\\Bindable')) {
                 continue;
             }
@@ -64,6 +66,7 @@ final class Autoload
     /**
      * @param $class
      * @param $bindings
+     *
      * @return array
      */
     public function autoloadBindings($class, $bindings)
@@ -99,6 +102,7 @@ final class Autoload
      * @param $tokens
      * @param $callback
      * @param $method
+     *
      * @return mixed|null
      */
     private function addMethodCallback($tokens, Callback $callback, $method = null)
@@ -109,11 +113,13 @@ final class Autoload
 
         if ($tokens[1] == 'action') {
             $func = isset($this->functions['add_action']) ? $this->functions['add_action'] : 'add_action';
+
             return call_user_func($func, $tokens[2], $callback->getMethodCallback($method), $priority, $acceptedArgs);
         }
 
         if ($tokens[1] == 'filter') {
             $func = isset($this->functions['add_filter']) ? $this->functions['add_filter'] : 'add_filter';
+
             return call_user_func($func, $tokens[2], $callback->getMethodCallback($method), $priority, $acceptedArgs);
         }
 
@@ -126,16 +132,17 @@ final class Autoload
      * @param $tokens
      * @param $callback
      * @param $method
+     *
      * @return mixed|null
      */
     private function addMethodCallbackPlugin(array $tokens, Callback $callback, $method)
     {
         if ($tokens[1] != 'plugin') {
-            return null;
+            return;
         }
 
         if (!in_array($tokens[2], ['register_activation_hook', 'register_deactivation_hook'])) {
-            return null;
+            return;
         }
 
         $func = isset($this->functions[$tokens[2]]) ? $this->functions[$tokens[2]] : $tokens[2];
