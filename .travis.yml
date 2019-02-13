@@ -1,21 +1,18 @@
-
 language: php
 
 php:
-  - '7'
+  - '7.2'
+
+before_install:
+  - sudo apt-get update
 
 before_script:
-  - mkdir -p build/logs
-  - composer install --no-interaction
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - vendor/bin/phpunit
-    --configuration phpunit.xml
-    --bootstrap ./vendor/autoload.php
-    --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
-  - ./vendor/bin/test-reporter
-
-notifications:
-  email: "bianco@javanile.org"
+  - bash <(curl -s https://codecov.io/bash)
+  - echo "${SFTP_KEY}" | base64 --decode >/tmp/sftp_rsa
