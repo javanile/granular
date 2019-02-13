@@ -85,6 +85,7 @@ final class Autoload
                 continue;
             }
 
+            $method = $method ?: $tokens[2];
             if ($this->addMethodCallback($tokens, $callback, $method)) {
                 $methods[] = $method;
             }
@@ -101,9 +102,8 @@ final class Autoload
      * @param $method
      * @return mixed|null
      */
-    private function addMethodCallback($tokens, Callback $callback, $method = null)
+    private function addMethodCallback($tokens, Callback $callback, $method)
     {
-        $method = $method ?: $tokens[2];
         $priority = isset($tokens[4]) ? $tokens[4] : 10;
         $acceptedArgs = isset($tokens[6]) ? $tokens[6] : 1;
 

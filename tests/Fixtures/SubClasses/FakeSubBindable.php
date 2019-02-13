@@ -4,9 +4,9 @@ namespace Javanile\Granular\Tests\Fixtures;
 
 use Javanile\Granular\Bindable;
 
-class FakeBindable extends Bindable
+class FakeSubBindable extends Bindable
 {
     static $bindings = [
-        'notmatch:notmatch',
+        'action:init',
     ];
 }
