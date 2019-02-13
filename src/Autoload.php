@@ -109,12 +109,12 @@ final class Autoload
 
         if ($tokens[1] == 'action') {
             $func = isset($this->functions['add_action']) ? $this->functions['add_action'] : 'add_action';
-            return call_user_func($func, $tokens[2], $callback->addMethodCallback($method), $priority, $acceptedArgs);
+            return call_user_func($func, $tokens[2], $callback->getMethodCallback($method), $priority, $acceptedArgs);
         }
 
         if ($tokens[1] == 'filter') {
             $func = isset($this->functions['add_filter']) ? $this->functions['add_filter'] : 'add_filter';
-            return call_user_func($func, $tokens[2], $callback->addMethodCallback($method), $priority, $acceptedArgs);
+            return call_user_func($func, $tokens[2], $callback->getMethodCallback($method), $priority, $acceptedArgs);
         }
 
         return $this->addMethodCallbackPlugin($tokens, $callback, $method);
@@ -140,7 +140,7 @@ final class Autoload
 
         $func = isset($this->functions[$tokens[2]]) ? $this->functions[$tokens[2]] : $tokens[2];
 
-        call_user_func($func, __FILE__, $callback->addMethodCallback($method));
+        call_user_func($func, __FILE__, $callback->getMethodCallback($method));
 
         return true;
     }

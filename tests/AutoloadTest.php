@@ -1,9 +1,9 @@
 <?php
 
-namespace Javanile\WpGranular\Tests;
+namespace Javanile\Granular\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Javanile\WpGranular\Autoload;
+use Javanile\Granular\Autoload;
 
 final class AutoloadTest extends TestCase
 {
@@ -17,8 +17,8 @@ final class AutoloadTest extends TestCase
         ]);
 
         $this->assertEquals(
-            [ 'Javanile\\Granular\\Tests\\Fixtures\\Sample' => [] ],
-            $autoload->autoload('Javanile\\Granular\\Tests\\Fixtures\\', __DIR__.'/fixtures')
+            [ 'Javanile\\Granular\\Tests\\Fixtures\\FakeBindable' => [] ],
+            $autoload->autoload('Javanile\\Granular\\Tests\\Fixtures\\', __DIR__.'/Fixtures')
         );
 
         $this->assertEquals(

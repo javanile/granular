@@ -40,9 +40,9 @@ final class Callback
     /**
      * Retrieve referenced object.
      */
-    private function bindObject()
+    private function getRefObject()
     {
-        if ($this->refObject == null) {
+        if ($this->refObject === null) {
             $this->refObject = new $this->refClass();
         }
 
@@ -55,10 +55,10 @@ final class Callback
      * @param $method
      * @return \Closure
      */
-    public function addMethodCallback($method)
+    public function getMethodCallback($method)
     {
         return function () use ($method) {
-            call_user_func_array([$this->refObject(), $method], func_get_args());
+            call_user_func_array([$this->getRefObject(), $method], func_get_args());
         };
     }
 }

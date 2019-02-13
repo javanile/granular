@@ -4,7 +4,7 @@ namespace Javanile\Granular\Tests\Fixtures;
 
 use Javanile\Granular\Bindable;
 
-class Sample extends Bindable
+class FakeBindable extends Bindable
 {
 
 }
