@@ -84,12 +84,12 @@ final class Autoload
                 $method = null;
             }
 
-            $regex = '/^(action|filter|shortcode|plugin)(:([a-z_]+))?(:([0-9]+))?(:([0-9]+))?$/';
+            $regex = '/^(action|filter|shortcode|plugin):([a-z_]+)(:([0-9]+))?(:([0-9]+))?$/';
             if (!preg_match($regex, $binding, $tokens)) {
                 continue;
             }
 
-            $method = $method ?: $tokens[3];
+            $method = $method ?: $tokens[2];
             if ($this->addMethodCallback($tokens, $callback, $method)) {
                 $methods[] = $method;
             }
@@ -109,9 +109,9 @@ final class Autoload
      */
     private function addMethodCallback($tokens, Callback $callback, $method)
     {
-        $trigger = isset($tokens[3]) ? $tokens[3] : null;
-        $priority = isset($tokens[5]) ? $tokens[5] : 10;
-        $acceptedArgs = isset($tokens[7]) ? $tokens[7] : 1;
+        $trigger = isset($tokens[2]) ? $tokens[2] : null;
+        $priority = isset($tokens[4]) ? $tokens[4] : 10;
+        $acceptedArgs = isset($tokens[6]) ? $tokens[6] : 1;
 
         if ($tokens[1] == 'action' && $trigger) {
             $func = isset($this->functions['add_action']) ? $this->functions['add_action'] : 'add_action';
@@ -146,7 +146,7 @@ final class Autoload
             return;
         }
 
-        $func = isset($tokens[3]) ? $tokens[3] : null;
+        $func = isset($tokens[2]) ? $tokens[2] : null;
         if (!in_array($func, ['register_activation_hook', 'register_deactivation_hook'])) {
             return;
         }
