@@ -29,18 +29,18 @@ final class AutoloadTest extends TestCase
         );
 
         $this->assertEquals(
-            [ 'myFilterMethod' ],
+            ['myFilterMethod'],
             $autoload->autoloadBindings(\stdClass::class, [
-                'filter:my_filter' => 'myFilterMethod'
+                'filter:my_filter' => 'myFilterMethod',
             ])
         );
 
         $this->assertEquals(
-            [ 'myRegisterActivationHook', 'myRegisterDeactivationHook' ],
+            ['myRegisterActivationHook', 'myRegisterDeactivationHook'],
             $autoload->autoloadBindings(\stdClass::class, [
                 'plugin:notmatch',
                 'notmatch:notmatch',
-                'plugin:register_activation_hook' => 'myRegisterActivationHook',
+                'plugin:register_activation_hook'   => 'myRegisterActivationHook',
                 'plugin:register_deactivation_hook' => 'myRegisterDeactivationHook',
             ])
         );

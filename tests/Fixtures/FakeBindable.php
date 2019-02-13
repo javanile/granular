@@ -6,7 +6,7 @@ use Javanile\Granular\Bindable;
 
 class FakeBindable extends Bindable
 {
-    static $bindings = [
+    public static $bindings = [
         'notmatch:notmatch',
     ];
 }
