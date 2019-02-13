@@ -1,6 +1,6 @@
 {
-  "name": "javanile/wp-granular",
-  "version": "0.0.2",
+  "name": "javanile/granular",
+  "version": "0.0.3",
   "autoload": {
     "psr-4": {
       "Javanile\\Granular\\": "src/",
