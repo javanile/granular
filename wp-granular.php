@@ -1,6 +1,5 @@
 <?php
 /**
- * @package wp-granular
  * @version 0.0.1
  */
 /*

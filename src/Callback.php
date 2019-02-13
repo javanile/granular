@@ -1,8 +1,9 @@
 <?php
 /**
- * javanile/granular
+ * javanile/granular.
  *
  * @link      http://github.com/javanile/granular
+ *
  * @copyright Copyright (c) 2018-2019 Javanile org.
  * @license   https://github.com/javanile/granular/blob/master/LICENSE
  */
@@ -29,6 +30,8 @@ final class Callback
      * Callback constructor.
      *
      * @param $bindClass
+     * @param mixed $refClass
+     *
      * @internal param $class
      * @internal param $method
      */
@@ -53,6 +56,7 @@ final class Callback
      * Retrieve callback over the object method.
      *
      * @param $method
+     *
      * @return \Closure
      */
     public function getMethodCallback($method)
