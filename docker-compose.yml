@@ -7,7 +7,7 @@ services:
     environment:
       - WORDPRESS_DB_PASSWORD=wordpress
     ports:
-      - 12080:80
+      - 14080:80
     volumes:
       - ./volumes/wordpress/:/var/www/html/wp-content:rw
       - ./:/var/www/html/wp-content/plugins/wp-granular:rw
@@ -19,4 +19,12 @@ services:
       - MYSQL_ROOT_PASSWORD=wordpress
     volumes:
       - ./volumes/mysql/:/var/lib/mysql
+    restart: "no"
+
+  adminer:
+    image: javanile/adminer
+    environment:
+      - MYSQL_ROOT_PASSWORD=wordpress
+    ports:
+      - 14081:8080
     restart: "no"

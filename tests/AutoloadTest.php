@@ -17,8 +17,8 @@ final class AutoloadTest extends TestCase
         ]);
 
         $this->assertEquals(
-            [ 'Javanile\\WpGranular\\Tests\\Fixtures\\Sample' => [] ],
-            $autoload->autoload('Javanile\\WpGranular\\Tests\\Fixtures\\', __DIR__.'/Fixtures')
+            [ 'Javanile\\Granular\\Tests\\Fixtures\\Sample' => [] ],
+            $autoload->autoload('Javanile\\Granular\\Tests\\Fixtures\\', __DIR__.'/fixtures')
         );
 
         $this->assertEquals(
