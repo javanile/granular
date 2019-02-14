@@ -6,5 +6,16 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d37299ab3e874e94b758ffe11438ac7f)](https://www.codacy.com/app/francescobianco/granular?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=javanile/granular&amp;utm_campaign=Badge_Grade)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+WordPress extension framework based on object-oriented paradigm. 
+Usign Granular you can write PSR compliant code increasing the general code quality 
+performing a better project organization.
+
+
+```php
+namespace Plugin\Acme
+
+
+```
+
 
 
