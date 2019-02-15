@@ -8,14 +8,30 @@
 
 WordPress extension framework based on object-oriented paradigm. 
 Usign Granular you can write PSR compliant code increasing the general code quality 
-performing a better project organization.
-
+performing a better project organization. Organize your code in feature 
+or group wordpres actions and filters in the same scope.
 
 ```php
-namespace Plugin\Acme
+namespace Plugin\Acme;
 
+use Javanile\Granular\Bindable;
+
+class MyFirstPluginFeature extends Bindable
+{
+  static $bindings = [
+    'action:init',
+    'filter:the_content' => 'theContent',
+  ];
+
+  public function init()
+  {
+    // Init code
+  }
+  
+  public function theContent($content)
+  {
+    return $content;
+  }
+}
 
 ```
-
-
-
