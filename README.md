@@ -12,7 +12,7 @@ performing a better project organization. Organize your code in feature
 or group wordpres actions and filters in the same scope.
 
 ```php
-namespace Plugin\Acme;
+namespace Acme\Plugin;
 
 use Javanile\Granular\Bindable;
 
