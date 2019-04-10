@@ -10,7 +10,7 @@
 
 namespace Javanile\Granular;
 
-final class Autoload
+class Autoload
 {
     /**
      * Override functions.
