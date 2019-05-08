@@ -1,6 +1,6 @@
 <?php
 
-namespace Javanile\WpGranular\Tests;
+namespace Javanile\Granular\Tests;
 
 use Javanile\Granular\Callback;
 use Javanile\Granular\Tests\Fixtures\FakeRefClass;

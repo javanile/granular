@@ -10,6 +10,8 @@
 
 namespace Javanile\Granular;
 
+use Prs\Container\ContainerInterface;
+
 class Autoload
 {
     /**
@@ -17,16 +19,16 @@ class Autoload
      *
      * @array
      */
-    protected $functions;
+    protected $container;
 
     /**
      * Autoload constructor.
      *
      * @param $functions
      */
-    public function __construct($functions = null)
+    public function __construct(ContainerInterface $container = null)
     {
-        $this->functions = $functions;
+        $this->container = $container;
     }
 
     /**
@@ -50,6 +52,7 @@ class Autoload
             $dir = $path.'/'.$file;
             if (is_dir($dir)) {
                 $autoload = array_merge($autoload, $this->autoload($namespace.$file, $dir));
+                continue;
             }
 
             $class = $namespace.basename($file, '.php');
@@ -84,6 +87,10 @@ class Autoload
                 $method = null;
             }
 
+            if (preg_match('/^([a-z_]+)(:([0-9]+))?(:([0-9]+))?$/', $binding)) {
+                $binding = 'action:'.$binding;
+            }
+
             $regex = '/^(action|filter|shortcode|plugin):([a-z_]+)(:([0-9]+))?(:([0-9]+))?$/';
             if (!preg_match($regex, $binding, $tokens)) {
                 continue;
@@ -114,18 +121,24 @@ class Autoload
         $acceptedArgs = isset($tokens[6]) ? $tokens[6] : 1;
 
         if ($tokens[1] == 'action' && $trigger) {
-            $func = isset($this->functions['add_action']) ? $this->functions['add_action'] : 'add_action';
-            return call_user_func($func, $trigger, $callback->getMethodCallback($method), $priority, $acceptedArgs);
+            return call_user_func_array(
+                $this->getFunction('add_action'),
+                [$trigger, $callback->getMethodCallback($method), $priority, $acceptedArgs]
+            );
         }
 
         if ($tokens[1] == 'filter' && $trigger) {
-            $func = isset($this->functions['add_filter']) ? $this->functions['add_filter'] : 'add_filter';
-            return call_user_func($func, $trigger, $callback->getMethodCallback($method), $priority, $acceptedArgs);
+            return call_user_func_array(
+                $this->getFunction('add_filter'),
+                [$trigger, $callback->getMethodCallback($method), $priority, $acceptedArgs]
+            );
         }
 
         if ($tokens[1] == 'shortcode') {
-            $func = isset($this->functions['add_shortcode']) ? $this->functions['add_shortcode'] : 'add_shortcode';
-            return call_user_func($func, $trigger, $callback->getMethodCallback($method));
+            return call_user_func_array(
+                $this->getFunction('add_shortcode'),
+                [$trigger, $callback->getMethodCallback($method)]
+            );
         }
 
         return $this->addMethodCallbackPlugin($tokens, $callback, $method);
@@ -146,15 +159,28 @@ class Autoload
             return;
         }
 
-        $func = isset($tokens[2]) ? $tokens[2] : null;
-        if (!in_array($func, ['register_activation_hook', 'register_deactivation_hook'])) {
+        $function = isset($tokens[2]) ? $tokens[2] : null;
+        if (!in_array($function, ['register_activation_hook', 'register_deactivation_hook'])) {
             return;
         }
 
-        $func = isset($this->functions[$func]) ? $this->functions[$func] : $func;
-
-        call_user_func($func, __FILE__, $callback->getMethodCallback($method));
+        call_user_func_array($this->getFunction($function), [__FILE__, $callback->getMethodCallback($method)]);
 
         return true;
+    }
+
+    /**
+     * Get function from DI container.
+     *
+     * @param $function
+     * @return mixed
+     */
+    private function getFunction($function)
+    {
+        if ($this->container !== null || !$this->container->has($function)) {
+            return $function;
+        }
+
+        return $this->container->get($function);
     }
 }

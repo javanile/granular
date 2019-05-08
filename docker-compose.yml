@@ -3,23 +3,21 @@ version: '3.1'
 services:
 
   wordpress:
-    image: wordpress
+    image: wordpress:5.1.1
     environment:
-      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_PASSWORD=secret
     ports:
       - 14080:80
     volumes:
-      - ./volumes/wordpress/:/var/www/html/wp-content:rw
-      - ./:/var/www/html/wp-content/plugins/wp-granular:rw
-    restart: "no"
+      - wp-content:/var/www/html/wp-content:rw
+      - ./:/var/www/html/wp-content/plugins/granular:rw
 
   mysql:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=wordpress
+      - MYSQL_ROOT_PASSWORD=secret
     volumes:
-      - ./volumes/mysql/:/var/lib/mysql
-    restart: "no"
+      - mysql:/var/lib/mysql
 
   adminer:
     image: javanile/adminer
@@ -27,4 +25,19 @@ services:
       - MYSQL_ROOT_PASSWORD=wordpress
     ports:
       - 14081:8080
-    restart: "no"
+
+  composer:
+    image: composer
+    user: 1000:1000
+    volumes:
+      - ./:/app
+
+  phpunit:
+    image: phpunit/phpunit:6.5.3
+    user: 1000:1000
+    volumes:
+      - ./:/app
+
+volumes:
+  wp-content:
+  mysql:

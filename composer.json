@@ -1,11 +1,14 @@
 {
   "name": "javanile/granular",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "autoload": {
     "psr-4": {
       "Javanile\\Granular\\": "src/",
       "Javanile\\Granular\\Tests\\": "tests/"
     }
+  },
+  "require": {
+    "psr/container": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5"

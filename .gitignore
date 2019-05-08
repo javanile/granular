@@ -1,6 +1,4 @@
 .idea/
-volumes/
-!volumes/mysql/.gitkeep
-!volumes/wordpress/.gitkeep
 vendor/
 composer.lock
+clover.xml
