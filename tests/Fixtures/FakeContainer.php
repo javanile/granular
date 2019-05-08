@@ -1,6 +1,6 @@
 <?php
 
-namespace Javanile\Granular\Tests;
+namespace Javanile\Granular\Tests\Fixtures;
 
 use Psr\Container\ContainerInterface;
 
@@ -23,7 +23,7 @@ class FakeContainer implements ContainerInterface
      */
     public function has($id)
     {
-        return isset($this->functions[$id]);
+        return isset($this->functions[$id]) && $this->functions[$id];
     }
 
     /**

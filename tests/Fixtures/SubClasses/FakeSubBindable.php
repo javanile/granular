@@ -1,6 +1,6 @@
 <?php
 
-namespace Javanile\Granular\Tests\Fixtures;
+namespace Javanile\Granular\Tests\Fixtures\SubClasses;
 
 use Javanile\Granular\Bindable;
 

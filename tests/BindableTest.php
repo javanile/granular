@@ -2,7 +2,8 @@
 
 namespace Javanile\Granular\Tests;
 
-use Javanile\Granular\Tests\Fixtures\FakeSubBindable;
+use Javanile\Granular\Tests\Fixtures\FakeBindable;
+use Javanile\Granular\Tests\Fixtures\SubClasses\FakeSubBindable;
 use PHPUnit\Framework\TestCase;
 
 final class BindableTest extends TestCase

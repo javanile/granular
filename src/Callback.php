@@ -10,6 +10,8 @@
 
 namespace Javanile\Granular;
 
+use Psr\Container\ContainerInterface;
+
 final class Callback
 {
     /**
@@ -27,17 +29,23 @@ final class Callback
     private $refObject;
 
     /**
+     *
+     */
+    private $container;
+
+    /**
      * Callback constructor.
      *
-     * @param $bindClass
      * @param mixed $refClass
      *
+     * @param ContainerInterface $container
      * @internal param $class
      * @internal param $method
      */
-    public function __construct($refClass)
+    public function __construct($refClass, ContainerInterface $container)
     {
         $this->refClass = $refClass;
+        $this->container = $container;
     }
 
     /**
@@ -45,6 +53,10 @@ final class Callback
      */
     private function getRefObject()
     {
+        if ($this->container !== null && $this->container->has($this->refClass)) {
+            return $this->container->get($this->refClass);
+        }
+
         if ($this->refObject === null) {
             $this->refObject = new $this->refClass();
         }

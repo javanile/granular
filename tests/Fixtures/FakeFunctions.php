@@ -1,6 +1,6 @@
 <?php
 
-namespace Javanile\Granular\Tests;
+namespace Javanile\Granular\Tests\Fixtures;
 
 class FakeFunctions
 {

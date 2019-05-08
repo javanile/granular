@@ -4,22 +4,26 @@ namespace Javanile\Granular\Tests;
 
 use Javanile\Granular\Autoload;
 use PHPUnit\Framework\TestCase;
+use Javanile\Granular\Tests\Fixtures\FakeContainer;
 
 final class AutoloadTest extends TestCase
 {
     public function testAutoload()
     {
-        $autoload = new Autoload(new FakeContainer());
+        $autoload = new Autoload(new FakeContainer);
 
         $this->assertEquals(
-            ['Javanile\\Granular\\Tests\\Fixtures\\FakeBindable' => []],
+            [
+                'Javanile\\Granular\\Tests\\Fixtures\\FakeBindable' => [],
+                'Javanile\\Granular\\Tests\\Fixtures\\SubClasses\\FakeSubBindable' => ['init']
+            ],
             $autoload->autoload('Javanile\\Granular\\Tests\\Fixtures\\', __DIR__.'/Fixtures')
         );
     }
 
     public function testAutoloadBindings()
     {
-        $autoload = new Autoload(new FakeContainer());
+        $autoload = new Autoload(new FakeContainer);
 
         $this->assertEquals(['init'], $autoload->autoloadBindings(\stdClass::class, ['init']));
 
@@ -47,8 +51,8 @@ final class AutoloadTest extends TestCase
         $this->assertEquals(
             ['myRegisterActivationHook', 'myRegisterDeactivationHook'],
             $autoload->autoloadBindings(\stdClass::class, [
-                'plugin:notmatch',
-                'notmatch:notmatch',
+                'plugin:not_match',
+                'not_match:not_match',
                 'plugin:register_activation_hook'   => 'myRegisterActivationHook',
                 'plugin:register_deactivation_hook' => 'myRegisterDeactivationHook',
             ])

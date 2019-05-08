@@ -10,7 +10,7 @@
 
 namespace Javanile\Granular;
 
-use Prs\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 class Autoload
 {
@@ -24,7 +24,7 @@ class Autoload
     /**
      * Autoload constructor.
      *
-     * @param $functions
+     * @param ContainerInterface|null $container
      */
     public function __construct(ContainerInterface $container = null)
     {
@@ -79,7 +79,7 @@ class Autoload
             return $methods;
         }
 
-        $callback = new Callback($class);
+        $callback = new Callback($class, $this->container);
 
         foreach ($bindings as $binding => $method) {
             if (is_numeric($binding)) {
@@ -177,7 +177,7 @@ class Autoload
      */
     private function getFunction($function)
     {
-        if ($this->container !== null || !$this->container->has($function)) {
+        if ($this->container === null || !$this->container->has($function)) {
             return $function;
         }
 
