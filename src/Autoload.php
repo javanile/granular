@@ -87,7 +87,7 @@ class Autoload
                 $method = null;
             }
 
-            if (preg_match('/^([a-z_]+)(:([0-9]+))?(:([0-9]+))?$/', $binding)) {
+            if (preg_match('/^[a-z_]+$/', $binding)) {
                 $binding = 'action:'.$binding;
             }
 
