@@ -48,8 +48,9 @@ A big Thank You to Golden Comrades team .
 
 == Changelog ==
 
-= 0.0.1 =
+= 0.0.8 =
 
+* Support PSR-11 dependence injection container
 * Support for extendable autoload
 
 == Upgrade Notice ==
