@@ -3,7 +3,7 @@
  * @version 0.0.8
  */
 /*
-Plugin Name: WP Granular
+Plugin Name: Granular
 Plugin URI: https://github.com/javanile/granular
 Description: WordPress extension framework based on object-oriented paradigm.
 Author: Francesco Bianco
