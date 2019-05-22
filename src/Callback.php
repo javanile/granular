@@ -42,7 +42,7 @@ final class Callback
      * @internal param $class
      * @internal param $method
      */
-    public function __construct($refClass, ContainerInterface $container)
+    public function __construct($refClass, ContainerInterface $container = null)
     {
         $this->refClass = $refClass;
         $this->container = $container;
