@@ -4,7 +4,7 @@
  *
  * @link      http://github.com/javanile/granular
  *
- * @copyright Copyright (c) 2018-2019 Javanile org.
+ * @copyright Copyright (c) 2018-2019 Javanile
  * @license   https://github.com/javanile/granular/blob/master/LICENSE
  */
 
@@ -32,7 +32,7 @@ class Autoload
     }
 
     /**
-     * Autoload namespace to particular path and look for bindable classess.
+     * Autoload namespace to particular path and look for bindable classes.
      *
      * @param $namespace
      * @param $path
@@ -60,34 +60,49 @@ class Autoload
                 continue;
             }
 
-            $autoload[$class] = $this->autoloadBindings($class, $class::getBindings());
+            $bindings = $this->registerClass($class);
+            if ($bindings) {
+                $autoload[$class] = $bindings;
+            }
         }
 
         return $autoload;
     }
 
     /**
+     * Register Class and specific method bindings.
+     *
      * @param $class
      * @param $bindings
      *
      * @return array
      */
-    public function autoloadBindings($class, $bindings)
+    public function registerClass($class, $bindings = null)
     {
-        $methods = [];
-        if (!is_array($bindings)) {
-            return $methods;
+        if ($bindings === null) {
+            $bindings = $class::getBindings();
         }
 
+        if (!is_array($bindings) && $bindings) {
+            $bindings = [$bindings];
+        }
+
+        $correctBindings = [];
         $callback = new Callback($class, $this->container);
 
-        foreach ($bindings as $binding => $method) {
+        foreach ($bindings as $binding => $methods) {
             if (is_numeric($binding)) {
-                $binding = $method;
-                $method = null;
+                $binding = $methods;
+                $methods = null;
             }
 
-            if (preg_match('/^[a-z_]+$/', $binding)) {
+            if (!is_array($methods) && $methods) {
+                $methods = [$methods];
+            }
+
+            if (preg_match('/^the_[a-z_]+$/', $binding) && $binding != 'the_post') {
+                $binding = 'filter:'.$binding;
+            } elseif (preg_match('/^[a-z_]+$/', $binding)) {
                 $binding = 'action:'.$binding;
             }
 
@@ -96,13 +111,15 @@ class Autoload
                 continue;
             }
 
-            $method = $method ?: $tokens[2];
-            if ($this->addMethodCallback($tokens, $callback, $method)) {
-                $methods[] = $method;
+            $methods = $methods ?: [$tokens[2]];
+            foreach ($methods as $method) {
+                if ($this->addMethodCallback($tokens, $callback, $method)) {
+                    $correctBindings[$binding][] = $method;
+                }
             }
         }
 
-        return $methods;
+        return $correctBindings;
     }
 
     /**

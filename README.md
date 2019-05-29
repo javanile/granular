@@ -35,3 +35,29 @@ class MyFirstPluginFeature extends Bindable
 }
 
 ```
+
+
+```php
+
+use Javanile\Granular\Autoload;
+
+$app = new Autoload();
+
+
+$app->bindClass(MyPlugin::class, 'init');
+
+[
+    'action:init',
+    'filter:the_content' => 'theContent',
+  ]
+
+```
+
+
+## Testing
+
+```bash
+$ docker-compose run --rm phpunit --stop-on-failure tests
+```
+
+

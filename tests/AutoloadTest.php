@@ -4,6 +4,7 @@ namespace Javanile\Granular\Tests;
 
 use Javanile\Granular\Autoload;
 use PHPUnit\Framework\TestCase;
+use Javanile\Granular\Tests\Fixtures\SubClasses\FakeSubBindable;
 use Javanile\Granular\Tests\Fixtures\FakeContainer;
 
 final class AutoloadTest extends TestCase
@@ -13,44 +14,41 @@ final class AutoloadTest extends TestCase
         $autoload = new Autoload(new FakeContainer);
 
         $this->assertEquals(
-            [
-                'Javanile\\Granular\\Tests\\Fixtures\\FakeBindable' => [],
-                'Javanile\\Granular\\Tests\\Fixtures\\SubClasses\\FakeSubBindable' => ['init']
-            ],
+            [FakeSubBindable::class => ['action:init' => ['init']]],
             $autoload->autoload('Javanile\\Granular\\Tests\\Fixtures\\', __DIR__.'/Fixtures')
         );
     }
 
-    public function testAutoloadBindings()
+    public function testRegisterClass()
     {
         $autoload = new Autoload(new FakeContainer);
 
-        $this->assertEquals(['init'], $autoload->autoloadBindings(\stdClass::class, ['init']));
-
         $this->assertEquals(
-            ['init'],
-            $autoload->autoloadBindings(\stdClass::class, [
-                'action:init:0:1' => 'init',
-            ])
+            ['action:init' => ['init']],
+            $autoload->registerClass(null, ['init'])
         );
 
         $this->assertEquals(
-            ['myFilterMethod'],
-            $autoload->autoloadBindings(\stdClass::class, [
-                'filter:my_filter' => 'myFilterMethod',
-            ])
+            ['action:init:0:1' => ['init']],
+            $autoload->registerClass(null, ['action:init:0:1' => 'init'])
         );
 
         $this->assertEquals(
-            ['myShortcodeMethod'],
-            $autoload->autoloadBindings(\stdClass::class, [
-                'shortcode:my_shortcode' => 'myShortcodeMethod'
-            ])
+            ['filter:my_filter' => ['myFilterMethod']],
+            $autoload->registerClass(null, ['filter:my_filter' => 'myFilterMethod'])
         );
 
         $this->assertEquals(
-            ['myRegisterActivationHook', 'myRegisterDeactivationHook'],
-            $autoload->autoloadBindings(\stdClass::class, [
+            ['shortcode:my_shortcode' => ['myShortcodeMethod']],
+            $autoload->registerClass(null, ['shortcode:my_shortcode' => 'myShortcodeMethod'])
+        );
+
+        $this->assertEquals(
+            [
+                'plugin:register_activation_hook'   => ['myRegisterActivationHook'],
+                'plugin:register_deactivation_hook' => ['myRegisterDeactivationHook'],
+            ],
+            $autoload->registerClass(\stdClass::class, [
                 'plugin:not_match',
                 'not_match:not_match',
                 'plugin:register_activation_hook'   => 'myRegisterActivationHook',

@@ -4,7 +4,7 @@
  *
  * @link      http://github.com/javanile/granular
  *
- * @copyright Copyright (c) 2018-2019 Javanile org.
+ * @copyright Copyright (c) 2018-2019 Javanile
  * @license   https://github.com/javanile/granular/blob/master/LICENSE
  */
 
@@ -29,7 +29,7 @@ final class Callback
     private $refObject;
 
     /**
-     *
+     * DI Container
      */
     private $container;
 

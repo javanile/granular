@@ -1,13 +1,13 @@
 <?php
 /**
- * @version 0.0.8
+ * @version 0.0.9
  */
 /*
 Plugin Name: Granular
 Plugin URI: https://github.com/javanile/granular
 Description: WordPress extension framework based on object-oriented paradigm.
 Author: Francesco Bianco
-Version: 0.0.8
+Version: 0.0.9
 Author URI: https://github.com/javanile
 */
 
