@@ -60,7 +60,7 @@ class Autoload
                 continue;
             }
 
-            $bindings = $this->registerClass($class);
+            $bindings = $this->register($class);
             if ($bindings) {
                 $autoload[$class] = $bindings;
             }
@@ -77,7 +77,7 @@ class Autoload
      *
      * @return array
      */
-    public function registerClass($class, $bindings = null)
+    public function register($class, $bindings = null)
     {
         if ($bindings === null) {
             $bindings = $class::getBindings();

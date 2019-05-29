@@ -43,13 +43,9 @@ use Javanile\Granular\Autoload;
 
 $app = new Autoload();
 
+// add MyPlugin::init() method to WordPress init action  
+$app->register(MyPlugin::class, 'init');
 
-$app->bindClass(MyPlugin::class, 'init');
-
-[
-    'action:init',
-    'filter:the_content' => 'theContent',
-  ]
 
 ```
 

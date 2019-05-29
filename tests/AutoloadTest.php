@@ -25,22 +25,22 @@ final class AutoloadTest extends TestCase
 
         $this->assertEquals(
             ['action:init' => ['init']],
-            $autoload->registerClass(null, ['init'])
+            $autoload->register(null, ['init'])
         );
 
         $this->assertEquals(
             ['action:init:0:1' => ['init']],
-            $autoload->registerClass(null, ['action:init:0:1' => 'init'])
+            $autoload->register(null, ['action:init:0:1' => 'init'])
         );
 
         $this->assertEquals(
             ['filter:my_filter' => ['myFilterMethod']],
-            $autoload->registerClass(null, ['filter:my_filter' => 'myFilterMethod'])
+            $autoload->register(null, ['filter:my_filter' => 'myFilterMethod'])
         );
 
         $this->assertEquals(
             ['shortcode:my_shortcode' => ['myShortcodeMethod']],
-            $autoload->registerClass(null, ['shortcode:my_shortcode' => 'myShortcodeMethod'])
+            $autoload->register(null, ['shortcode:my_shortcode' => 'myShortcodeMethod'])
         );
 
         $this->assertEquals(
@@ -48,7 +48,7 @@ final class AutoloadTest extends TestCase
                 'plugin:register_activation_hook'   => ['myRegisterActivationHook'],
                 'plugin:register_deactivation_hook' => ['myRegisterDeactivationHook'],
             ],
-            $autoload->registerClass(\stdClass::class, [
+            $autoload->register(\stdClass::class, [
                 'plugin:not_match',
                 'not_match:not_match',
                 'plugin:register_activation_hook'   => 'myRegisterActivationHook',
