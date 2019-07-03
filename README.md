@@ -7,9 +7,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 WordPress extension framework based on object-oriented paradigm. 
-Usign Granular you can write PSR compliant code increasing the general code quality 
+Using Granular you can write PSR compliant code increasing the general code quality 
 performing a better project organization. Organize your code in feature 
-or group wordpres actions and filters in the same scope.
+or group WordPress actions and filters in the same scope.
 
 ```php
 namespace Acme\Plugin;
@@ -38,15 +38,12 @@ class MyFirstPluginFeature extends Bindable
 
 
 ```php
-
 use Javanile\Granular\Autoload;
 
 $app = new Autoload();
 
 // add MyPlugin::init() method to WordPress init action  
 $app->register(MyPlugin::class, 'init');
-
-
 ```
 
 
@@ -55,5 +52,3 @@ $app->register(MyPlugin::class, 'init');
 ```bash
 $ docker-compose run --rm phpunit --stop-on-failure tests
 ```
-
-

@@ -17,16 +17,16 @@ final class Callback
     /**
      * Referenced class to this instance.
      *
-     * @var string
+     * @var string|object
      */
-    private $refClass;
+    private $referer;
 
     /**
      * Generated object using referenced class.
      *
      * @var object
      */
-    private $refObject;
+    private $instance;
 
     /**
      * DI Container
@@ -36,32 +36,31 @@ final class Callback
     /**
      * Callback constructor.
      *
-     * @param mixed $refClass
-     *
+     * @param $referer
      * @param ContainerInterface $container
-     * @internal param $class
-     * @internal param $method
      */
-    public function __construct($refClass, ContainerInterface $container = null)
+    public function __construct($referer, ContainerInterface $container = null)
     {
-        $this->refClass = $refClass;
+        $this->referer = $referer;
         $this->container = $container;
     }
 
     /**
-     * Retrieve referenced object.
+     * Retrieve instance by referer or container key.
      */
-    private function getRefObject()
+    private function getInstance()
     {
-        if ($this->container !== null && $this->container->has($this->refClass)) {
-            return $this->container->get($this->refClass);
+        if ($this->instance !== null) {
+            return $this->instance;
+        } elseif (is_object($this->referer)) {
+            $this->instance = $this->referer;
+        } elseif ($this->container !== null && $this->container->has($this->referer)) {
+            $this->instance = $this->container->get($this->referer);
+        } else {
+            $this->instance = new $this->referer();
         }
 
-        if ($this->refObject === null) {
-            $this->refObject = new $this->refClass();
-        }
-
-        return $this->refObject;
+        return $this->instance;
     }
 
     /**
@@ -74,7 +73,7 @@ final class Callback
     public function getMethodCallback($method)
     {
         return function () use ($method) {
-            return call_user_func_array([$this->getRefObject(), $method], func_get_args());
+            return call_user_func_array([$this->getInstance(), $method], func_get_args());
         };
     }
 }

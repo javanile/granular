@@ -19,6 +19,21 @@ final class AutoloadTest extends TestCase
         );
     }
 
+    public function testBindMethod()
+    {
+        $autoload = new Autoload(new FakeContainer);
+
+        $this->assertEquals(
+            ['action:init' => ['init']],
+            $autoload->bind('init')
+        );
+
+        $this->assertEquals(
+            ['filter:the_content' => ['theContent']],
+            $autoload->bind('the_content', 'theContent')
+        );
+    }
+
     public function testRegisterClass()
     {
         $autoload = new Autoload(new FakeContainer);

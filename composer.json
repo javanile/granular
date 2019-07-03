@@ -1,6 +1,12 @@
 {
   "name": "javanile/granular",
-  "version": "0.0.9",
+  "version": "0.0.10",
+  "authors": [
+    {
+      "name": "Francesco Bianco",
+      "email": "bianco@javanile.org"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Javanile\\Granular\\": "src/",

@@ -15,9 +15,9 @@ use Psr\Container\ContainerInterface;
 class Autoload
 {
     /**
-     * Override functions.
+     * Dependency injection container.
      *
-     * @array
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -70,6 +70,18 @@ class Autoload
     }
 
     /**
+     * Bind single method of app class.
+     *
+     * @param $binding
+     * @param $method
+     * @return array
+     */
+    public function bind($binding, $method = null)
+    {
+        return $this->processBindings([$binding => $method], $this);
+    }
+
+    /**
      * Register Class and specific method bindings.
      *
      * @param $class
@@ -87,8 +99,19 @@ class Autoload
             $bindings = [$bindings];
         }
 
+        return $this->processBindings($bindings, $class);
+    }
+
+    /**
+     *
+     * @param $bindings
+     * @param $referer
+     * @return array
+     */
+     private function processBindings($bindings, $referer)
+     {
         $correctBindings = [];
-        $callback = new Callback($class, $this->container);
+        $callback = new Callback($referer, $this->container);
 
         foreach ($bindings as $binding => $methods) {
             if (is_numeric($binding)) {

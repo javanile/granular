@@ -14,9 +14,9 @@ final class CallbackTest extends TestCase
     {
         $callback = new Callback(FakeRefClass::class, new FakeContainer);
 
-        $getRefObjectMethod = new ReflectionMethod($callback, 'getRefObject');
+        $getInstanceMethod = new ReflectionMethod($callback, 'getInstance');
 
-        $this->assertTrue($getRefObjectMethod->isPrivate());
+        $this->assertTrue($getInstanceMethod->isPrivate());
 
         $fakeRefMethod = $callback->getMethodCallback('fakeRefMethod');
 
