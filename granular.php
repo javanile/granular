@@ -1,7 +1,4 @@
 <?php
-/**
- * @version 0.0.10
- */
 /*
 Plugin Name: Granular
 Plugin URI: https://github.com/javanile/granular
@@ -13,12 +10,10 @@ Author URI: https://github.com/javanile
 
 defined('ABSPATH') or exit;
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$app = new Javanile\Granular\Autoload();
+use Javanile\Granular\Autoload;
+
+$app = new Autoload(null, __FILE__);
 
 $app->autoload('Javanile\\Granular\\', __DIR__.'/src');
-
-$app->bindings([
-    'action:init' => 'init'
-]);

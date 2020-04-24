@@ -22,13 +22,22 @@ class Autoload
     protected $container;
 
     /**
+     * WordPress plugin entrypoint file.
+     *
+     * @var ContainerInterface
+     */
+    protected $entrypoint;
+
+    /**
      * Autoload constructor.
      *
      * @param ContainerInterface|null $container
+     * @param string|null $entrypoint
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container = null, $entrypoint = null)
     {
         $this->container = $container;
+        $this->entrypoint = $entrypoint;
     }
 
     /**
@@ -204,7 +213,11 @@ class Autoload
             return;
         }
 
-        call_user_func_array($this->getFunction($function), [__FILE__, $callback->getMethodCallback($method)]);
+        if (!$this->entrypoint) {
+            return;
+        }
+
+        call_user_func_array($this->getFunction($function), [$this->entrypoint, $callback->getMethodCallback($method)]);
 
         return true;
     }

@@ -36,7 +36,7 @@ final class AutoloadTest extends TestCase
 
     public function testRegisterClass()
     {
-        $autoload = new Autoload(new FakeContainer);
+        $autoload = new Autoload(new FakeContainer, 'entrypoint');
 
         $this->assertEquals(
             ['action:init' => ['init']],
